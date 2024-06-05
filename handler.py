@@ -46,5 +46,5 @@ def create_tenk_filing(symbol, filing_type, filing_url, filing_date):
 # Example usage
 if __name__ == "__main__":
     create_tables()
-    #create_company("AAPL", 123456, "Technology", "NASDAQ", "Apple Inc.", "Apple", "Consumer Electronics")
-    create_tenk_filing("AAPL", "10K", "http://example.com/filing", date(2023, 5, 31))
+    create_company("AAPL", 123456, "Technology", "NASDAQ", "Apple Inc.", "Apple", "Consumer Electronics")
+    #create_tenk_filing("AAPL", "10K", "http://example.com/filing", date(2023, 5, 31))

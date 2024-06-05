@@ -1,10 +1,12 @@
 from datetime import date
 
+from database import create_tables
 from extract.preprocessing import enumerate_tags, extract_company_data
 from extract.extract import EdgarRequest, YahooFinanceRequest
 from handler import create_company, create_tenk_filing
 
 if __name__ == '__main__':
+    create_tables()
     # Example usage
     current_date = date.today()
     str_date = current_date.strftime('%Y-%m-%d')
@@ -32,4 +34,4 @@ if __name__ == '__main__':
             sector = company_data['sector']
 
             create_company(symbol, cik, industry, exchange, longname, shortname, sector)
-            create_tenk_filing(symbol, filing_type, filing_url, current_date)
+            #create_tenk_filing(symbol, filing_type, filing_url, current_date)
