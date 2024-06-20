@@ -34,19 +34,20 @@ class Company(Base):
 class TenKFiling(Base):
     __tablename__ = 'tenk_filings'
 
-    id = Column(Integer, Identity(start=1, cycle=True), primary_key=True)
+    tid = Column(Integer, primary_key=True)
     symbol = Column(String, ForeignKey('companies.symbol'), nullable=False)
     filing_type = Column(String)
     filing_url = Column(String, nullable=False)
     date = Column(Date, nullable=False)
 
-    def __init__(self, symbol, filing_type, filing_url, date):
+    def __init__(self, tid, symbol, filing_type, filing_url, date):
         super().__init__()
+        self.tid = tid
         self.symbol = symbol
         self.filing_type = filing_type
         self.filing_url = filing_url
         self.date = date
 
     def __repr__(self):
-        return (f"<TenKFiling, symbol='{self.symbol}', filing_type='{self.filing_type}', "
+        return (f"<TenKFiling, id={self.tid}, symbol='{self.symbol}', filing_type='{self.filing_type}', "
                 f"filing_url='{self.filing_url}', date='{self.date}')>")

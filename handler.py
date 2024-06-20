@@ -1,7 +1,7 @@
 from datetime import date
 from database import get_session, create_tables
 from models import Company, TenKFiling
-
+from sqlalchemy import func
 
 def create_company(symbol, cik, industry, exchange, longname, shortname, sector):
     session = get_session()
@@ -29,7 +29,8 @@ def create_tenk_filing(symbol, filing_type, filing_url, filing_date):
 
     try:
         if tenk is None:
-            new_tenk = TenKFiling(symbol, filing_type, filing_url, filing_date)
+            tid = (session.query(func.max(TenKFiling.tid)).scalar() or 0) + 1
+            new_tenk = TenKFiling(tid, symbol, filing_type, filing_url, filing_date)
             session.add(new_tenk)
             session.commit()
             print(f"Created 10K filing: {new_tenk}")

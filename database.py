@@ -23,8 +23,9 @@ def get_session():
     return SessionLocal()
 
 
-def create_tables():
-    # Drop tables if they exist (for demonstration purposes, be careful with this in production)
-    Base.metadata.drop_all(bind=engine)
+def create_tables(drop_all=False):
+    if drop_all:
+        # Drop tables if they exist
+        Base.metadata.drop_all(bind=engine)
     # Create all tables
     Base.metadata.create_all(bind=engine)

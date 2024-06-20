@@ -34,4 +34,4 @@ if __name__ == '__main__':
             sector = company_data['sector']
 
             create_company(symbol, cik, industry, exchange, longname, shortname, sector)
-            #create_tenk_filing(symbol, filing_type, filing_url, current_date)
+            create_tenk_filing(symbol, filing_type, filing_url, current_date)
