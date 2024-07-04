@@ -5,7 +5,7 @@ from extract.preprocessing import enumerate_tags, extract_company_data
 from extract.extract import EdgarRequest, YahooFinanceRequest
 from handler import create_company, create_tenk_filing
 
-if __name__ == '__main__':
+def run():
     create_tables()
     # Example usage
     current_date = date.today()
