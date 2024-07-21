@@ -1,5 +1,5 @@
 import requests
-from constants import USER_AGENT, EDGAR_URL, YFINANCE_URL
+from src.constants import USER_AGENT, EDGAR_URL, YFINANCE_URL
 
 
 class Request:

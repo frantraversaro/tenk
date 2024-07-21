@@ -2,13 +2,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python_operator import PythonOperator
-from main import run
-
-import requests
-import json
-import pandas as pd
-import psycopg2
-from psycopg2.extras import execute_values
+from src.main import run
 
 ## TAREAS
 

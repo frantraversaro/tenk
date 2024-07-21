@@ -1,6 +1,6 @@
 from datetime import date
-from database import get_session, create_tables
-from models import Company, TenKFiling
+from src.db.database import get_session, create_tables
+from src.db.models import Company, TenKFiling
 from sqlalchemy import func
 
 def create_company(symbol, cik, industry, exchange, longname, shortname, sector):

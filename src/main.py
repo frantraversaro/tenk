@@ -1,9 +1,9 @@
 from datetime import date
 
-from database import create_tables
-from extract.preprocessing import enumerate_tags, extract_company_data
-from extract.extract import EdgarRequest, YahooFinanceRequest
-from handler import create_company, create_tenk_filing
+from src.db.database import create_tables
+from src.extract.preprocessing import enumerate_tags, extract_company_data
+from src.extract.requests import EdgarRequest, YahooFinanceRequest
+from src.db.handler import create_company, create_tenk_filing
 
 def run():
     create_tables()
