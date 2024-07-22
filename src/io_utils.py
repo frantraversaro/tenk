@@ -16,8 +16,9 @@ def save_to_datalake(data: pd.DataFrame, key: str, bucket: str = OUTPUT_PATH):
     :return: None
     """
     path = os.path.join(bucket, key)
+    logging.info(f"Saving data into path: {path}")
     if not os.path.exists(path):
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
     data.to_csv(os.path.join(path, 'data.csv'), index=False)
 
 

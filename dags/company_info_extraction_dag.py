@@ -5,6 +5,8 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
 
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+
 from src.extract.extract import get_companies_details
 from src.io_utils import load_from_datalake, save_to_datalake
 
@@ -21,7 +23,7 @@ default_args = {
 
 # Define the DAG
 dag = DAG(
-    'company-info-extraction-dag',
+    'company_info_extraction_dag',
     default_args=default_args,
     description='A DAG to read data from 10K extraction and get company info',
     schedule_interval=None,  # Only trigger manually or via another DAG
@@ -78,5 +80,17 @@ load_companies_details = PythonOperator(
     dag=dag,
 )
 
+trigger_companies_dag = TriggerDagRunOperator(
+    task_id='trigger_upload_companies_to_redshift_dag',
+    trigger_dag_id='load_companies_table_to_redshift_dag',  # The DAG ID to trigger
+    dag=dag,
+)
+
+trigger_10K_dag = TriggerDagRunOperator(
+    task_id='trigger_upload_filings_to_redshift_dag',
+    trigger_dag_id='load_filings_table_to_redshift_dag',  # The DAG ID to trigger
+    dag=dag,
+)
+
 # Define the task dependencies
-read_10k_filings >> download_companies_details >> load_companies_details
+read_10k_filings >> download_companies_details >> load_companies_details >> [trigger_companies_dag, trigger_10K_dag]

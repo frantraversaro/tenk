@@ -22,7 +22,7 @@ default_args = {
 
 # Define the DAG
 dag = DAG(
-    'tenk-extraction-dag',
+    'tenk_extraction_dag',
     default_args=default_args,
     description='An ETL DAG to extract data from an API, transform it, and save as CSV',
     schedule_interval=timedelta(days=1),
@@ -63,7 +63,7 @@ load_task = PythonOperator(
 
 trigger_companies_dag = TriggerDagRunOperator(
     task_id='trigger_company_info_extraction_dag',
-    trigger_dag_id='company-info-extraction-dag',  # The DAG ID to trigger
+    trigger_dag_id='company_info_extraction_dag',  # The DAG ID to trigger
     dag=dag,
 )
 
