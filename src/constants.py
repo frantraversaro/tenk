@@ -1,4 +1,6 @@
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+USER_AGENT = 'Francisco Traversaro (frantraversaro@gmail.com)'
 
 EDGAR_URL = "https://www.sec.gov/cgi-bin/srch-edgar"
 YFINANCE_URL = "https://query2.finance.yahoo.com/v1/finance/search"
+
+OUTPUT_PATH = "/opt/airflow/dags/output/"

@@ -1,8 +1,8 @@
 from datetime import date
 
 from src.db.database import create_tables
-from src.extract.preprocessing import enumerate_tags, extract_company_data
-from src.extract.requests import EdgarRequest, YahooFinanceRequest
+from src.extract.utils import extract_filing_data, extract_company_data
+from src.extract.api_requests import EdgarRequest, YahooFinanceRequest
 from src.db.handler import create_company, create_tenk_filing
 
 def run():
@@ -15,7 +15,7 @@ def run():
     yahoo_request = YahooFinanceRequest()
 
     filings = edgar_request.get_10k_filings_by_date(str_date)
-    filings_data = enumerate_tags(filings)
+    filings_data = extract_filing_data(filings)
     for f in filings_data:
         cik = int(f['cik'])
         company_name = f['company_name']
