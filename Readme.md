@@ -1,6 +1,6 @@
 # 10K Report Analysis Pipeline
 
-This repository contains an ETL pipeline that ingests, cleans, and loads 10-K reports data from the Edgar API into Amazon Redshift. The data is then analyzed using a large language model to make investment decisions based on the report and the stock value/volume time series.
+This repository contains an ETL pipeline that ingests, cleans, and loads 10-K reports data from the Edgar API into Amazon Redshift. The data is going to be analyzed using a large language model to make investment decisions based on the report and the stock value/volume time series.
 
 ## Project Structure
 
