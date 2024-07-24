@@ -3,9 +3,15 @@ import re
 from bs4 import BeautifulSoup
 
 
-# EDGAR response preprocessing
+# EDGAR response parse utils
 
-def extract_filing_data(entry):
+def parse_filing_entry(entry):
+    """
+    For a given entry extracted from the main xml extract the relevant information
+    :param entry: a single entry from 10K filing
+    :return: a tuple with the relevant information
+    """
+
     cik = None
     filing_url = None
 
@@ -33,6 +39,11 @@ def extract_filing_data(entry):
 
 
 def parse_filing_title(title):
+    """
+    For a given title extarct the filing type and company
+    :param title: the 10K title
+    :return: tuple (filing_type, company_name)
+    """
     if "NT 10-K" in title:
         filing_type = "NT10K"
         company_name = title.split("NT 10-K - ")[1]
@@ -47,13 +58,19 @@ def parse_filing_title(title):
     return filing_type, company_name
 
 
-def enumerate_tags(content):
-    soup = BeautifulSoup(content, 'lxml')
+def extract_filing_data(xml_content):
+    """
+    Given a xml file with 10K filling data, clean and extract the relevant information
+    :param xml_content: The xml input
+    :return: a list of dictionaries with the relevant information
+    """
+
+    soup = BeautifulSoup(xml_content, 'lxml')
     entries = soup.find_all('entry')
     filings_data = []
 
     for entry in entries:
-        cik, company_name, filing_type, filing_url = extract_filing_data(entry)
+        cik, company_name, filing_type, filing_url = parse_filing_entry(entry)
         if cik and filing_url:
             filings_data.append(
                 {'cik': cik, 'company_name': company_name, 'filing_type': filing_type, 'filing_url': filing_url})
@@ -63,8 +80,13 @@ def enumerate_tags(content):
     return filings_data
 
 
-# YAHOO FINANCE response preprocessing
-def extract_company_data(company_details):
+# YAHOO FINANCE extract utils
+def parse_company_data(company_details):
+    """
+    Given a yahoo response get companies data
+    :param company_details: the yahoo response for a company
+    :return: a dictionary with relevant information of the company
+    """
     fetch_data = dict(
         symbol=[],
         industry=[],
@@ -95,7 +117,34 @@ def extract_company_data(company_details):
             if symbol is None:
                 return None
             else:
-                output[key] =symbol
+                output[key] = symbol
         else:
             output[key] = value[0] if value else "Unknown"
     return output
+
+
+def extract_companies_details(filing_df, yahoo_request_obj):
+    """
+    Extract details for companies present in filing data DataFrame
+    :param filing_df: a dataframe with 10K information
+    :param yahoo_request_obj: The yahoo request object
+    :return: a list of dictionaries containing the companies details
+    """
+    companies = []
+    for _, f in filing_df.iterrows():
+        company_name = f['company_name']
+        company_details = yahoo_request_obj.get_company_details(company_name)
+        company_data = parse_company_data(company_details)
+
+        if company_data is not None:
+            companies.append(
+                dict(
+                    symbol=company_data['symbol'],
+                    industry=company_data['industry'],
+                    exchange=company_data['exchange'],
+                    longname=company_data['longname'],
+                    shortname=company_data['shortname'],
+                    sector=company_data['sector']
+                )
+            )
+    return companies

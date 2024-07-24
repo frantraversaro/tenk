@@ -1,9 +1,10 @@
-FROM python:3.10.5-slim-buster
+FROM apache/airflow:2.3.3
 
-COPY . usr/src/app
-WORKDIR /usr/src/app
+# Copy custom code
+COPY src /opt/airflow/src
+COPY .env /opt/airflow/.env
+# Install dependencies from requirements.txt
+RUN pip install python-decouple
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-ENTRYPOINT python main.py
+# Set the PYTHONPATH to include the src directory
+ENV PYTHONPATH="/opt/airflow:${PYTHONPATH}"

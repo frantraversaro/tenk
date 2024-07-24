@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from src.load.redshift_db.models import Base
 from decouple import config
 
 # Credentials
